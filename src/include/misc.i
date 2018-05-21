@@ -229,7 +229,7 @@ __wt_txn_context_check(WT_SESSION_IMPL *session, bool requires_txn)
  *	Sleep while waiting, after a thousand yields.
  */
 static inline void
-__wt_state_yield_sleep(uint64_t *yield_count, uint64_t *sleep_usecs)
+__wt_state_yield_sleep(uint64_t *yield_count, uint64_t *sleep_count)
 {
 	/*
 	 * We yield before retrying, and if we've yielded enough times, start
@@ -241,6 +241,6 @@ __wt_state_yield_sleep(uint64_t *yield_count, uint64_t *sleep_usecs)
 		return;
 	}
 
-	(*sleep_usecs) = WT_MIN((*sleep_usecs) + 100, WT_THOUSAND);
-	__wt_sleep(0, (*sleep_usecs));
+	(*sleep_count) = WT_MIN((*sleep_count) + 100, WT_THOUSAND);
+	__wt_sleep(0, (*sleep_count));
 }

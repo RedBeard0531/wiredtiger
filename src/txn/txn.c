@@ -892,10 +892,9 @@ __wt_txn_commit(WT_SESSION_IMPL *session, const char *cfg[])
 			if (ref->page_del->update_list == NULL)
 				break;
 
-			for (;; __wt_yield()) {
+			for (;;) {
 				previous_state = ref->state;
-				if (previous_state != WT_REF_LOCKED &&
-				    __wt_atomic_casv32(
+				if (__wt_atomic_casv32(
 				    &ref->state, previous_state, WT_REF_LOCKED))
 					break;
 			}
